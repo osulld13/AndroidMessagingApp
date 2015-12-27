@@ -13,6 +13,11 @@
         android:theme="@style/AppTheme"
         android:name = ".Ribbit2Application">
 
+        <!--
+        Here an external class has been added as the entry point to the app
+        this is a good place to do extra processing before the app starts
+        -->
+
         <meta-data
             android:name="com.parse.APPLICATION_ID"
             android:value="YbjMHSOKdU6OgYisIreFLUbmuxI4McupDDPlH0tJ" />

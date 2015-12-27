@@ -7,6 +7,11 @@ import com.parse.ParseObject;
 /**
  * Created by Donal on 27/12/2015.
  */
+
+/*
+Here an external class has been added as the entry point to the app
+this is a good place to do extra processing before the app starts
+*/
 public class Ribbit2Application extends Application {
 
     @Override
