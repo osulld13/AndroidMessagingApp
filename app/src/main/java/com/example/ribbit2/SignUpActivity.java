@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -21,6 +22,7 @@ public class SignUpActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
 
@@ -59,11 +61,16 @@ public class SignUpActivity extends AppCompatActivity {
                     newUser.setUsername(username);
                     newUser.setPassword(password);
                     newUser.setEmail(email);
+
+                    // Show the intermediate progress bar
+                    setProgressBarIndeterminateVisibility(true);
                     // Use the sign up in background method to assign the sign up process to a background thread
                     // This will prevent the signup from locking up user input
                     newUser.signUpInBackground(new SignUpCallback() {
                         @Override
                         public void done(ParseException e) {
+                            // Hide the intermediate progress bar
+                            setProgressBarIndeterminateVisibility(false);
                             if (e == null){
                                 // Sign up successful
                                 Intent inboxIntent = new Intent(SignUpActivity.this, MainActivity.class);

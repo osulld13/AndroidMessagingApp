@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -22,6 +23,13 @@ public class LoginActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        // Indeterminate windows feature is a spinner progress indicator that runs while
+        // a process is being waited upon. It should be used in scenarios where the time
+        // a user could be waiting is potentially quite to variant.
+        //
+        // reqestWindowFeature must be called BEFORE set content view and onCreate
+        //
+        requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
@@ -53,9 +61,13 @@ public class LoginActivity extends AppCompatActivity {
                 }
                 //Login
                 else{
+                    // Make the indeterminate progress indicator visible as we try to login
+                    setProgressBarIndeterminateVisibility(true);
                     ParseUser.logInInBackground(username, password, new LogInCallback() {
                         @Override
                         public void done(ParseUser user, ParseException e) {
+                            //Turn off the indeterminate process indicator as log in transaction is complete
+                            setProgressBarIndeterminateVisibility(false);
                             // Successful login
                             if ( e == null ){
                                 Intent inboxIntent = new Intent(LoginActivity.this, MainActivity.class);
