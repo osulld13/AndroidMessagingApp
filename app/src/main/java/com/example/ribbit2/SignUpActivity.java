@@ -78,8 +78,8 @@ public class SignUpActivity extends AppCompatActivity {
                                         .setTitle(R.string.sign_up_error_title)
                                         // Using genereric android string resource 'ok' and passing a null listener - as button has no action
                                         .setPositiveButton(android.R.string.ok, null);
-                                AlertDialog emptyFieldAlertDialog = signUpExceptionAlertBuilder.create();
-                                emptyFieldAlertDialog.show();
+                                AlertDialog  signUpExceptionAlertDialog = signUpExceptionAlertBuilder.create();
+                                signUpExceptionAlertDialog.show();
                             }
                         }
                     });
