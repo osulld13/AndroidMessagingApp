@@ -1,6 +1,5 @@
 package com.example.ribbit2;
 
-import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -98,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
             ParseUser currentUser = ParseUser.getCurrentUser();
             currentUser.logOut();
             navigateToLogin();
+        }
+        else if (itemId == R.id.action_edit_friends){
+            Intent editFriendsIntent = new Intent(this, EditFriendsActivity.class);
+            startActivity(editFriendsIntent);
         }
 
         return super.onOptionsItemSelected(item);
