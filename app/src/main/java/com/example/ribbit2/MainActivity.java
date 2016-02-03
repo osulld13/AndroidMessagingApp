@@ -3,7 +3,10 @@ package com.example.ribbit2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -13,6 +16,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.parse.ParseUser;
 
@@ -20,12 +24,23 @@ public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
 
+    public static final int TAKE_PHOTO_REQUEST = 0;
+    public static final int TAKE_VIDEO_REQUEST = 1;
+    public static final int PICK_PHOTO_REQUEST = 2;
+    public static final int PICK_VIDEO_REQUEST = 3;
+
+    public static final int MEDIA_TYPE_IMAGE = 4;
+    public static final int MEDIA_TYPE_VIDEO = 5;
+
+    protected Uri mMediaUri;
+
     protected DialogInterface.OnClickListener mDialogueListener =
                     new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which){
                     switch(which){
                         case 0: // Take picture
+                            takePicture();
                             break;
                         case 1: // Take video
                             break;
@@ -33,6 +48,42 @@ public class MainActivity extends AppCompatActivity {
                             break;
                         case 3: // Choose video
                             break;
+                    }
+                }
+
+                private void takePicture() {
+                    Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    mMediaUri = getOutputMediaFileUri(MEDIA_TYPE_IMAGE);
+                    if(mMediaUri == null){
+                        //display an error
+                        Toast.makeText(MainActivity.this, R.string.error_external_storage, Toast.LENGTH_LONG).show();
+                    }
+                    else {
+                        takePhotoIntent.putExtra(MediaStore.EXTRA_OUTPUT, mMediaUri);
+                        startActivityForResult(takePhotoIntent, TAKE_PHOTO_REQUEST);
+                    }
+                }
+
+                private Uri getOutputMediaFileUri(int mediaType){
+                    // To be safe, you should check that the External Storage is mounted
+                    // using Environment.getExternalStorageState() before doing this.
+                    if(isExternalStorageAvailable()){
+                        // get Uri
+                        return null;
+                    }
+                    else {
+                        return null;
+                    }
+                }
+
+                private boolean isExternalStorageAvailable() {
+                    String state = Environment.getExternalStorageState();
+
+                    if (state.equals(Environment.MEDIA_MOUNTED)){
+                        return true;
+                    }
+                    else{
+                        return false;
                     }
                 }
             };
