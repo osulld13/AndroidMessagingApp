@@ -1,5 +1,7 @@
 package com.example.ribbit2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
@@ -17,6 +19,23 @@ import com.parse.ParseUser;
 public class MainActivity extends AppCompatActivity {
 
     public static final String TAG = MainActivity.class.getSimpleName();
+
+    protected DialogInterface.OnClickListener mDialogueListener =
+                    new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which){
+                    switch(which){
+                        case 0: // Take picture
+                            break;
+                        case 1: // Take video
+                            break;
+                        case 2: // Choose picture
+                            break;
+                        case 3: // Choose video
+                            break;
+                    }
+                }
+            };
 
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -38,7 +57,6 @@ public class MainActivity extends AppCompatActivity {
         // The indeterminate progress indicator can now be called in the fragments
         // contained in the activity
         requestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_main);
@@ -99,14 +117,22 @@ public class MainActivity extends AppCompatActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int itemId = item.getItemId();
 
-        if ( itemId == R.id.action_logout ){
-            ParseUser currentUser = ParseUser.getCurrentUser();
-            currentUser.logOut();
-            navigateToLogin();
-        }
-        else if (itemId == R.id.action_edit_friends){
-            Intent editFriendsIntent = new Intent(this, EditFriendsActivity.class);
-            startActivity(editFriendsIntent);
+        switch (itemId) {
+            case R.id.action_logout:
+                ParseUser currentUser = ParseUser.getCurrentUser();
+                currentUser.logOut();
+                navigateToLogin();
+                break;
+            case R.id.action_edit_friends:
+                Intent editFriendsIntent = new Intent(this, EditFriendsActivity.class);
+                startActivity(editFriendsIntent);
+                break;
+            case R.id.action_camera:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setItems(R.array.camera_choices, mDialogueListener);
+                AlertDialog dialog = builder.create();
+                dialog.show();
+                break;
         }
 
         return super.onOptionsItemSelected(item);
