@@ -265,6 +265,7 @@ public class MainActivity extends AppCompatActivity {
                             inputStream.close();
                         } catch (IOException e) {
                             e.printStackTrace();
+                            return;
                         }
                     }
                     if (fileSize >= FILE_SIZE_LIMIT){
@@ -281,6 +282,11 @@ public class MainActivity extends AppCompatActivity {
                 mediaScanIntent.setData(mMediaUri);
                 sendBroadcast(mediaScanIntent);
             }
+
+            //Start the select recipients activity attach the uri of the item to be sent
+            Intent recipientsIntent = new Intent(this, RecipientsActivity.class);
+            recipientsIntent.setData(mMediaUri);
+            startActivity(recipientsIntent);
         }
         else if (resultCode != RESULT_CANCELED){
             Toast.makeText(this, R.string.general_error, Toast.LENGTH_LONG).show();
